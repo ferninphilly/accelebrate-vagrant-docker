@@ -26,7 +26,7 @@
 
 12. Our next command is to actually bring it to life! From the same directory run this command: `vagrant up`. You should see the image (thing ISO image) being downloaded. Once downloaded you shoul see a message like this one:
 
-[!vagrantup](../../images/vagrantup.png)
+![vagrantup](../../images/vagrantup.png)
 
 13. Note the default port forwarding! Port 22, in the vast, vast majority of networks, is reserved for ssh access to a machine (we can edit that later in the Vagrantfile). This means that access to our virtualmachine will be through port 22- which means ssh access. Vagrant has also done us the favor of copying the ssh key into the `authorized_keys` doc in the `~/.ssh` folder so now we only have one command left to access our VM:
 `vagrant ssh`
@@ -74,7 +74,7 @@
 
 15. **Congratulations on creating your first environment!!**
 
-[!youdidit](../../images/youditit.jpeg)
+![youdidit](../../images/youditit.jpeg)
 
 ## Vagrant Boxes
 
@@ -96,17 +96,17 @@
 
 4. Click [here](https://app.vagrantup.com/boxes/search) for a quick look at the main Vagrant Repo of different offerings of images from which to build virtual machines. Using these is as simple as adding a line to your vagrant file OR (as we shall see) pulling them directly from the repository with `vagrant box add`
 
-[!prettycool](../../images/prettycool.jpeg)
+![prettycool](../../images/prettycool.jpeg)
 
 5. So these are __images__ of machines that Vagrant can run! Some of them come with a lot more than just straight Operating Systems. As you can see you can get all sorts of different machines here...a lot of them pre-loaded with some pretty cool stuff (like Docker images in the Dockerhub repo, right?). We went over images in the powerpoint of course. 
 
 6. So let's do a quick search for a **Django** box by typing **Django** into the search bar and see what comes up...
 
-[!djangoboxes](../../images/djangoboxes.png)
+![djangoboxes](../../images/djangoboxes.png)
 
 7. So- from speaking during our scoping call it would appear that we might need to look at a django/rhel7 (CentOS) combo to work from. After doing a search [here](https://app.vagrantup.com/boxes/search?utf8=%E2%9C%93&sort=downloads&provider=&q=Django%2C+centOS) is where I landed. Looks like a Django 1.6 with CentOS...which should work well for our needs... so let's take a closer look:
 
-[!centosdjango](../../images/centosdjango.png)
+![centosdjango](../../images/centosdjango.png)
 
 8. Go ahead and click on the `sapphirus/django` vagrant image and take a closer look. You'll immediately notice how easy it is to add to your vagrant boxes by simply adding it to the configuration section of your vagrant file....BUT....
 
