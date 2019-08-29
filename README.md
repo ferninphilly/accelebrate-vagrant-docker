@@ -38,4 +38,4 @@ Now occasionally you might have a second hypervisor in use which will block vagr
 
 2. Open up a command line editor and type in `docker info`. If you get a bunch of stuff- congrats! You've got DOCKER! If not please see me. 
 
-[!success](./images/installsuccess.png)
+![success](./images/installsuccess.png)
