@@ -26,7 +26,7 @@
 
 12. Our next command is to actually bring it to life! From the same directory run this command: `vagrant up`. You should see the image (thing ISO image) being downloaded. Once downloaded you shoul see a message like this one:
 
-[!vagrantup](../images/vagrantup.png)
+[!vagrantup](../../images/vagrantup.png)
 
 13. Note the default port forwarding! Port 22, in the vast, vast majority of networks, is reserved for ssh access to a machine (we can edit that later in the Vagrantfile). This means that access to our virtualmachine will be through port 22- which means ssh access. Vagrant has also done us the favor of copying the ssh key into the `authorized_keys` doc in the `~/.ssh` folder so now we only have one command left to access our VM:
 `vagrant ssh`
@@ -74,7 +74,7 @@
 
 15. **Congratulations on creating your first environment!!**
 
-[!youdidit](../../images/youdidit.jpeg)
+[!youdidit](../../images/youditit.jpeg)
 
 ## Vagrant Boxes
 
