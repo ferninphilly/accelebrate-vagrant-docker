@@ -110,4 +110,12 @@
 
 8. Go ahead and click on the `sapphirus/django` vagrant image and take a closer look. You'll immediately notice how easy it is to add to your vagrant boxes by simply adding it to the configuration section of your vagrant file....BUT....
 
-9. Let's say that we wanted to **download** this one but didn't want to **keep** it. You see-- what happens with a Vagrantfile is a lot like what happens with docker- to whit: When we say "I would like a docker image of Django" or "I would like a vagrant image of Django" the first thing that happens is that docker and vagrant check **locally** to see if they can find the image locally. __If they cannot__ find the image locally then they will hit the vagrant repo here and download it.
+9. Let's say that we wanted to **download** this one but didn't want to **keep** it. You see-- what happens with a Vagrantfile is a lot like what happens with docker- to whit: When we say "I would like a docker image of Django" or "I would like a vagrant image of Django" the first thing that happens is that docker and vagrant check **locally** to see if they can find the image locally. __If they cannot__ find the image locally then they will hit the vagrant repo here and download it. Sometimes this downloading takes time...
+
+10. To avoid spending a lot of time waiting for downloads it might behoove us to go and **get** these boxes and store them locally. To that end we can simply run this command: `vagrant box add sapphirus/django` and wait. This will download that box for us. Let's do that now...
+
+11. Once the download has completed (and it might take a while) you can see what images you have locally with `vagrant box list`
+
+12. Now go into your new Vagrant box and have a look around with `vagrant ssh`
+
+![questions](../../images/questions.jpeg)
