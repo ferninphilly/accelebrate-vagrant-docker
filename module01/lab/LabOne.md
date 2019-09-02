@@ -118,4 +118,15 @@
 
 12. Now go into your new Vagrant box and have a look around with `vagrant ssh`
 
+13. Great work!! NOW- there is only one step left in this project and that is to utilize one of the most useful commands to get rid of everything and start over (which is common among developers- the "let's just nuke it and start over" activity!): `vagrant destroy`
+
+14. Once you have destroyed your currently running virtual machine you should have a clean slate. To completely wipe out everything (the "Nuke it" option) all we have to do is delete the **Vagrantfile** and the **.vagrant** directory and then we can re-initialize the entire directory. So let's do that now:
+`rm Vagrantfile && rm -rf .vagrant`
+
+![nukeit](../../images/nukeit.jpeg)
+
+15. You should now have a completely clean system. Congratulations on making it through the first lab!!
+
+## Confused?? ASK QUESTIONS!
+
 ![questions](../../images/questions.jpeg)
