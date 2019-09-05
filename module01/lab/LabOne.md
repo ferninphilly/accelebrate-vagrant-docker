@@ -4,32 +4,72 @@
 
 1. So as we discussed in the presentation- the important thing to remember about vagrant is that it is **not a virtual machine**. It is an abstraction layer that allows us to **run** virtual machines.
 
-2. This class focuses primarily on using **docker** as the provider...but it's also useful to look at other providers such as **virtualbox** and **vmware** as possibilities. 
+2. This class focuses primarily on using **docker** as the provider...but it's also useful to look at other providers such as **virtualbox** and **vmware** as possibilities. VIRTUALBOX is the primary provider for vagrant.
 
-3. Let's start by going over our main vagrant commands. As step one- start from the root directory of this github project and change directories into **./module01/lab**. So run the command `cd ./module01/lab`. 
+3. Let's explore **Virtualbox** really quickly before we start! Let's open up Virtualbox and take a look at the interface here. You should see a Penguin there:
 
-4. Once in here we're going to run our first key vagrant command: `vagrant init`. This should result in a file appearing that says **Vagrantfile** in that directory. 
+![penguin](../../images/penguin.png)
 
-5. Let's take a quick look at the **Vagrantfile**: Essentially when you open it you'll see a lot of the explanation as to what should happen here commented out...but it should give you an idea of what's going on with Vagrant. 
+4. Now- right now you'll notice that there are ZERO virtual machines created. Go over and click on the blue "NEW" gear icon at the top. You'll notice immediately that it wants you to point to a file (*.ovf or *.iso) and that it expects you to have it downloaded locally in order to do this. So where do we get this file from?
 
-6. So the first uncommented section is `Vagrant.configure("2") do |config|`- which starts a code block which is basically saying "DO A THING" (the "2" has to do with versioning).
+![filefind](../../images/filefind.png)
 
-7. `config.vm.box = "base"` is the next uncommented section. Let's take a quick look at this! Essentially what's happening here is that we are naming the type of virtual machine we want to create. With a default `vagrant init` we will get a box called `base` with a very, well..."BASE" operating system installed.
+5. Okay- so if we want virtualbox images to run we would normally go online to somewhere like [here](https://www.osboxes.org/virtualbox-images/) and download the image we want. You'll notice (if you take a look at some of them) that they are usually around 1-3 GB...and generally pretty vanilla (i.e: very few, if any programs, pre-installed)
 
-8.  Obviously this is not as useful as it __could__ be... this is just a very basic image. NORMALLY we would want a virtual machine that actually has some sort of OS- maybe **ubuntu** or **CentOS**? So before we go on let's change the `vm.box` to have an actualy, __operating system__ on it! 
+![osboxes](../../images/osboxes.png)
 
-9. First let's delete the current Vagrant file (on linux simply do `rm Vagrantfile` from the command line). Now instead let's get a new box- `vagrant init ubuntu/trusty64`. This should make a new `Vagrantfile` appear. 
+6. So the process would be something like this: 
+    
+    * Get Virtualbox (done)
+    * Go to your osboxes site and download the image you want
+    * Put the large image into a directory where you can access it
+    * Open up virtualbox, choose "NEW" and point to that folder.
+    * Start the virtual machine from the virtualbox app
+    * Click on the virtualbox screen and start using the virtual machine
 
-10. NOTE that if you don't want to bother deleting the **Vagrantfile** you can do `vagrant init -f ubuntu/trusty64` which forces an overwrite of the current vagrantfile in the directory.
+## Vagrant Commands    
 
-11. Now let's go into our **Vagrantfile** and you should now have a `config.vm.box = "ubuntu/trusty64"` which is a way of creating a ubuntu virtual machine. 
+1. Let's start by going over our main vagrant commands: Open up a **git bash** window. Run a `pwd` you should see that you are in **C:\Users\Administrator** by default. Go into your bright, shiny new github repo with the command `cd Documents\Github\accelebrate-vagrant-docker\module01\lab`. Run an `ls` and you should see only the **app** directory.
 
-12. Our next command is to actually bring it to life! From the same directory run this command: `vagrant up`. You should see the image (thing ISO image) being downloaded. Once downloaded you shoul see a message like this one:
+2. Once in here we're going to run our first key vagrant command: `vagrant init`. This should result in a file appearing that says **Vagrantfile** in that directory. 
+
+![initialize](../../images/initialize.png)
+
+3. Let's take a quick look at the **Vagrantfile**: Essentially when you open it you'll see a lot of the explanation as to what should happen here commented out...but it should give you an idea of what's going on with Vagrant!
+
+4. So the first uncommented section is `Vagrant.configure("2") do |config|`- which starts a code block which is basically saying "DO A THING" (the "2" has to do with versioning).
+
+5. `config.vm.box = "base"` is the next uncommented section. Let's take a quick look at this! Essentially what's happening here is that we are naming the type of virtual machine we want to create. With a default `vagrant init` we will get a box called `base` with a very, well..."BASE" operating system installed.
+
+6.  Obviously this is not as useful as it __could__ be... this is just a very basic image. NORMALLY we would want a virtual machine that actually has some sort of OS- maybe **ubuntu** or **CentOS**? So before we go on let's change the `vm.box` to have an actualy, __operating system__ on it! 
+
+7. First let's delete the current Vagrant file (on linux simply do `rm Vagrantfile` from the command line). Now instead let's get a new box- `vagrant init ubuntu/trusty32`. This should make a new `Vagrantfile` appear. Go in and take a look at the Vagrantfile. What does the **vm.box** have on it now? 
+
+8. NOTE that if you don't want to bother deleting the **Vagrantfile** you can do `vagrant init -f ubuntu/trusty32` which forces an overwrite of the current vagrantfile in the directory.
+
+11. Now let's go into our **Vagrantfile** and you should now have a `config.vm.box = "ubuntu/trusty32"` which is a way of creating a ubuntu virtual machine. 
+
+12. Our next command is to actually bring it to life! From the same directory run this command: `vagrant up`. You should see the image (thing ISO image) being downloaded. __This will take a while__ so if you want a cup of coffee...now is the time to grab one.
+
+13. Once downloaded you should see a message like this one:
 
 ![vagrantup](../../images/vagrantup.png)
 
-13. Note the default port forwarding! Port 22, in the vast, vast majority of networks, is reserved for ssh access to a machine (we can edit that later in the Vagrantfile). This means that access to our virtualmachine will be through port 22- which means ssh access. Vagrant has also done us the favor of copying the ssh key into the `authorized_keys` doc in the `~/.ssh` folder so now we only have one command left to access our VM:
-`vagrant ssh`
+14. Before we move on let's go to Virtualbox and see if our virtual machine has made it there...
+
+![virtualmachine](../../images/virtualmachine.png)
+
+15. NOW- let's take a look at the virtual machine you've created here! Right click on the **lab_default** machine and click on "view". You should get a pop-out that shows what the current machine is up to as a separate screen. If you click on it you can move your cursor in there. Notice how slow and laggy and crappy it is? UGH!!
+
+![vbview](../../images/vbview.png)
+
+16. Close that view (and choose to keep it running in the background). Let's take a look at how Vagrant can make this system a little easier....
+
+17. Go back to your **git bash** screen and, assuming you are still in the same accelebrate-vagrant-docker directory, type in this command: `vagrant ssh`. Grab a cup of coffee because this COULD take a while...
+
+13. Note the default port forwarding! Port 22, in the vast, vast majority of networks, is reserved for ssh access to a machine (we can edit that later in the Vagrantfile). This means that access to our virtualmachine will be through port 22- which means ssh access. Vagrant has also done us the favor of copying the ssh key into the `authorized_keys` doc in the `~/.ssh` folder!
+
+14. Now let's head over to **virtualbox** and take a look at our bright, shiny new virtual machine.
 
 14. Are you in your VM? Congrats! We've accomplished the first check!!
 

@@ -1,58 +1,64 @@
-# Installing vagrant
+# Prerequisite Setup
+
+## Set up the Virtual Lab
+
+1. Using the link provided by accelebrate- start up and log into your windows image. 
+
+![virtualwindows](./images/virtualwindows.png)
+
+2. Congratulations! You've got a virtual machine! Let's start setting up virtual machines on your virtual machines!!
+
+![inception](./images/inception.jpeg)
+
+## Download and set up GIT 
+
+1. Let's get Github for windows [here](https://desktop.github.com)- or...because we don't have it yet- it's **https://desktop.github.com**
+
+2. Once it's downloaded go ahead and sign into your github account 
+
+![gitsignin](./images/gitsignin.png)
+
+3. Now that you are signed into github we want to **clone a repository from the internet**. That should bring up another window. Do a search for **ferninphilly/accelebrate-vagrant-docker**. You can leave all of the options as the default. Click "OKAY" to clone it.
+
+![cloningrepo](./images/cloningrepo.png)
+
+4. Now open up your file directories and navigate to the directory **C:\Users\Administrator\Documents\Github\accelebrate-vagrant-docker**. If you see the **accelebrate-vagrant-docker** directory then congrats!! You've got GITHUB!!
+
+![congrats](./images/congrats.jpeg)
+
+## Download and set up GIT BASH
+
+1. Now that we have this code base inside our directories we can (hopefully) start using links! Let's get git bash by going [here](https://gitforwindows.org) (or we can use https://gitforwindows.org).
+
+2. Download that one and double click it. When it opens up the installation windows there **are** two changes we need to make:
+
+    * "Use Git from the Windows Command Prompt" with this option you will be able to use Git from both Git Bash and the Windows Command Prompt.
+    * "Checkout as-is, commit Unix-style line endings"
+
+![gitbash](./images/gitbash.png)
+
+3. Everything else can be default (if you mess up- don't worry...just re-install). Once you're done with that go ahead and click on "Launch Git bash" at the end (if you haven't launched then you can search from Windows and do it from there). 
+
+4. Launch a git bash window. Congrats! Third step done!
+
+## Download and set up VirtualBox
+
+1. Now onto VirtualBox- which is one of the **providers** (we'll be getting to that later) we'll be using for our Vagrant machine. Head [here](https://www.virtualbox.org/wiki/Downloads) (that's https://www.virtualbox.org/wiki/Downloads) and download the windows virtualbox executable.
+
+2. Double click on the exe and run through all of the defaults (it's fine) including installing the network drive.
+
+3. Do a quick search and launch virtualbox (just to make sure it worked!). Screen should look like this:
+
+![vbox](./images/vbox.png)
 
 ## Download and setup Vagrant
 
-### For Windows
+1. Head [here](https://www.vagrantup.com/downloads.html)- which is https://www.vagrantup.com/downloads) and choose the appropriate 64 but system version. 
 
-1. Head [here](https://www.vagrantup.com/downloads.html) and choose the appropriate system version (64 bit). Download the MSI and install.
+2. Download the MSI and install. All defaults again is fine (you have to accept the agreement)
 
-2. Now open up a powershell terminal and type in `vagrant -v`. If you get a version number then you've successfully installed vagrant on your system.
+3. Grab a cup of coffee and settle in...this could be a while...but once it's done go ahead and restart (you should be presented with the option).
 
-![powershellvagrant](./images/powershellvagrant.png)
+4. NOW- once your VM has restarted go ahead and open up a **git bash** terminal (you can do a search for them and open up). Once that's open type in `vagrant -v`. If you got a response...congratulations!! We're good to go!!
 
-3. We still need one more thing to get Vagrant running successfully on our OS- a [virtualbox](https://www.virtualbox.org/wiki/Downloads) system that we will use as a sample provider for our local virtual machines. In order to get this installed go to the link here and download the windows version and install it.
-
-4. When installing the virtualbox simply click through the defaults (allow it to install in the default directory, in other words...just click through all default settings). Allow it to **finish**. 
-
-![virtualbox](./images/virtualbox.png)
-
-#### Install github on Windows:
-
-1. First head [here](http://desktop.github.com) and download the 64 bit native github desktop manager. 
-
-2. Once the app is downloaded and opened please sign in to git with your credentials on the desktop app (if you need to sign up for an account you can go [here](http://github.com/join) and sign up. DEFINITELY worth having a github account!)
-
-3. Once you are signed in we want to clone [this](https://github.com/ferninphilly/accelebrate-vagrant-docker.git) repository. You can just leave it in the **/Users/Administrator/documents/Github** directory.
-
-![clonerepo](./images/clonerepo.png)
-
-4. Open up a powershell window and **change directories** into the appropriate directory with this command: `cd \Users\Administrator\Documents\Github\accelebrate-vagrant-docker\module01\lab`
-
-![powershell](./images/powershell.png)
-
-#### Install Docker on Windows
-
-1. To download Docker on your local machine go [here](https://www.docker.com/get-started)
-Once it is installed you should see a docker image in your "running apps" bar (on mac and windows they are different).
-
-2. Go to your command line (powershell) and type in `docker info`. If you get a return value then congratulations! You have docker installed on windows!
-
-
-### For Mac
-
-1. For Mac I usually find it easiest to use [homebrew](https://brew.sh/) to manage my packages. If you don't already have homebrew go to the link and download it. 
-
-2. Once you have homebrew installed simply do a `brew cask install vagrant` and once that is done run `brew cask install virtualbox` and then finally `brew cask install vagrant-manager`
-
-3. Check to make sure that vagrant is installed by opening up the command line (for Windows or Mac) and type in `vagrant -v`. If you get a version number there then you have successfully installed vagrant on your system. IF NOT please see me. 
-
-4. **Do this step only if you run into issues:** 
-Now occasionally you might have a second hypervisor in use which will block vagrant. If you are on mac run `lsmod | grep kvm`. This will give you a list of kvm hypervisors running. Let's say your hypervisor is `kvm intel`....then `echo 'blacklist kvm-intel' >> /etc/modprobe.d/blacklist.conf` to blacklist that hypervisor. 
-
-## Download and setup Docker on Mac
-
-1. For mac we can manage with homebrew; simply go with `brew install docker docker-compose docker-machine` and we are good to go on mac.
-
-2. Open up a command line editor and type in `docker info`. If you get a bunch of stuff- congrats! You've got DOCKER! If not please see me. 
-
-![success](./images/installsuccess.png)
+![goodtogo](./images/goodtogo.png)
