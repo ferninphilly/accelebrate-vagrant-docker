@@ -43,35 +43,56 @@
 
 6.  Obviously this is not as useful as it __could__ be... this is just a very basic image. NORMALLY we would want a virtual machine that actually has some sort of OS- maybe **ubuntu** or **CentOS**? So before we go on let's change the `vm.box` to have an actualy, __operating system__ on it! 
 
-7. First let's delete the current Vagrant file (on linux simply do `rm Vagrantfile` from the command line). Now instead let's get a new box- `vagrant init ubuntu/trusty32`. This should make a new `Vagrantfile` appear. Go in and take a look at the Vagrantfile. What does the **vm.box** have on it now? 
+7. First let's delete the current Vagrant file (on linux simply do `rm Vagrantfile` from the command line). Now instead let's get a new box- `vagrant init hashicorp/precise32`. This should make a new `Vagrantfile` appear. Go in and take a look at the Vagrantfile. What does the **vm.box** have on it now? 
 
-8. NOTE that if you don't want to bother deleting the **Vagrantfile** you can do `vagrant init -f ubuntu/trusty32` which forces an overwrite of the current vagrantfile in the directory.
+8. NOTE that if you don't want to bother deleting the **Vagrantfile** you can do `vagrant init -f hashicorp/precise32` which forces an overwrite of the current vagrantfile in the directory.
 
-11. Now let's go into our **Vagrantfile** and you should now have a `config.vm.box = "ubuntu/trusty32"` which is a way of creating a ubuntu virtual machine. 
+11. Now let's go into our **Vagrantfile** and you should now have a `config.vm.box = "hashicorp/precise32"` which is a way of creating a ubuntu virtual machine. 
 
-12. Our next command is to actually bring it to life! From the same directory run this command: `vagrant up`. You should see the image (thing ISO image) being downloaded. __This will take a while__ so if you want a cup of coffee...now is the time to grab one.
+12. While in the Vagrantfile also uncomment the following lines:
+    * `config.vm.provider "virtualbox" do |vb|`
+    * `vb.gui = true`
+    * `end`
 
-13. Once downloaded you should see a message like this one:
+13. Our next command is to actually bring it to life! From the same directory run this command: `vagrant up`. You should see the image (thing ISO image) being downloaded. __This will take a while__ so if you want a cup of coffee...now is the time to grab one.
+
+14. Once downloaded you should get a pop-up that IS your virual machine. It might be asking for a password there. The username/password by default is `vagrant/vagrant`. On Git bash you should see a message like this one:
 
 ![vagrantup](../../images/vagrantup.png)
 
-14. Before we move on let's go to Virtualbox and see if our virtual machine has made it there...
+...and ultimately, when the VM is made, you should see a message like this one:
 
-![virtualmachine](../../images/virtualmachine.png)
+![vmmade](../../images/vmmade.png)
 
-15. NOW- let's take a look at the virtual machine you've created here! Right click on the **lab_default** machine and click on "view". You should get a pop-out that shows what the current machine is up to as a separate screen. If you click on it you can move your cursor in there. Notice how slow and laggy and crappy it is? UGH!!
+15. Go ahead and play around in the virtual machine for a while (maybe run a `sudo apt-get update && sudo apt-get upgrade` for example...or download whatever you want there)
 
-![vbview](../../images/vbview.png)
+16. By now you've probably noticed what a complete PITA (not going to define that acronym but you can figure it out I'm sure!) it is having to click IN and OUT of this vm. __REALLY__ annoying, isn't it? Like- once you're in it's not so bad but having to click in and out gets old....fast! __SO...what can we do to make this process easier?__
 
-16. Close that view (and choose to keep it running in the background). Let's take a look at how Vagrant can make this system a little easier....
+17. Go back to your **git bash** terminal (assuming it's still open). Go into the directory with your vagrantfile. On the terminal type in `vagrant ssh`. After a couple of minutes you should see a command line that matches the output from the virtual machine screen!
 
-17. Go back to your **git bash** screen and, assuming you are still in the same accelebrate-vagrant-docker directory, type in this command: `vagrant ssh`. Grab a cup of coffee because this COULD take a while...
+![sshsuccess](../../images/sshsuccess.png)
 
-13. Note the default port forwarding! Port 22, in the vast, vast majority of networks, is reserved for ssh access to a machine (we can edit that later in the Vagrantfile). This means that access to our virtualmachine will be through port 22- which means ssh access. Vagrant has also done us the favor of copying the ssh key into the `authorized_keys` doc in the `~/.ssh` folder!
+18. NOW- IF YOU WANT...we can get rid of the (kind of annoying) terminal. 
 
-14. Now let's head over to **virtualbox** and take a look at our bright, shiny new virtual machine.
+19. START by clicking on the red "X" on the top right hand corner of your Virtual Machine and just choosing to "save the machine state". This will close the virtual machine visual output.
 
-14. Are you in your VM? Congrats! We've accomplished the first check!!
+20. Now let's go BACK into your vagrant file and re-comment these three lines:
+
+    * `config.vm.provider "virtualbox" do |vb|`
+    * `vb.gui = true`
+    * `end`
+
+21. Doing the above will basically make it so that `vagrant ssh` from the git bash command line is the only (and preferred) access to the virtual machine. This will keep it easier as you don't have to deal with multiple screens.
+
+19. NOW we need to find a way to re-build this box...which is what we'll go over in the next section.
+
+### A couple of quick notes! 
+
+1. Note the default port forwarding! Port 22, in the vast, vast majority of networks, is reserved for ssh access to a machine (we can edit that later in the Vagrantfile). This means that access to our virtualmachine will be through port 22- which means ssh access. Vagrant has also done us the favor of copying the ssh key into the `authorized_keys` doc in the `~/.ssh` folder!
+
+2. Now let's head over to **virtualbox** and take a look at our bright, shiny new virtual machine.
+
+3. If you want you can right click on the virtual machine in virtual box and choose "view" to get a view of the virtual machine running. This will allow you to go "into" the virtual machine here as well as through ssh.
 
 ## Creating the environment
 
@@ -89,32 +110,6 @@
 
 7. So basically our machine never stopped RUNNING. If we want the machine to re-read the vagrantfile we need to **reload** it. Run this command: `vagrant reload` and see what happens. You should see a restart on the machine and then a re-provisioning of the virtual machine. Now that you have **reloaded** the machine run a `vagrant ssh` to go into the machine and then an `ls` to see what's in there. Did your website make it in there this time?
 
-8. The next thing we need to do is to make sure that, when we create our website, we can do effective **port forwarding**. As we know- the default http port on servers is port **80** (or port **443** for secure socket layers).
-
-9. Let's go back into our **Vagrantfile** and update the file (around line 26) to the following (you probably only have to uncomment it): 
-`config.vm.network "forwarded_port", guest: 80, host: 8080`
-
-10. As one more extra bonus here- it would be somewhat useless to have this awesome setup with port forwarding if we didn't have a webserver to SERVE that port, right? In other words- it would be nice to install a, let's say, APACHE server that will handle incoming/outgoing connections from that port, right? 
-
-11. So let's do that! Go down to the bottom of the vagrantfile and look for the section that starts with `Enable provisioning with a shell script`. Under that you should see a shell script that will automatically download and install an apache2 server for you. 
-
-```shell
-    config.vm.provision "shell", inline: <<-SHELL
-        yes | sudo cp /home/vagrant/website_data/index.html /var/www/html/index.html
-        apt-get update
-        apt-get install -y apache2
-    SHELL
-```
-
-12. Please paste the above code into the `config.vm.provision` section.
-
-13. Now with that uncommented let's go ahead and run and re-provision our vagrant machine and see what we've got! `vagrant reload`.
-
-14. Let's navigate to `http://localhost:8080` and see if that worked!
-
-15. **Congratulations on creating your first environment!!**
-
-![youdidit](../../images/youditit.jpeg)
 
 ## Vagrant Boxes
 
