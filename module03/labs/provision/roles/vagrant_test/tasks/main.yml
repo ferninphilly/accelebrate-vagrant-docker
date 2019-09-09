@@ -1,7 +1,4 @@
----
-# tasks file for provision/roles/vagrant_test
----
-# tasks file for provision/roles/vagrant-test
+
 ---
 - name: "Install Web Service"
   package:
