@@ -61,4 +61,30 @@
 
 4. NOW- once your VM has restarted go ahead and open up a **git bash** terminal (you can do a search for them and open up). Once that's open type in `vagrant -v`. If you got a response...congratulations!! We're good to go!!
 
+## Download and install Python
+
+1. So- as a prerequisite to using Ansible we need to have Python installed on our host Operating System (this is also a generally useful thing to have as python is a great programming language).
+
+2. So navigate [here](https://www.python.org/downloads) (https://www.python.org/downloads) and download python version 3.7.
+
+3. During the download please make sure that you add **Python3** to your PATH variable so that it's usable from powershell (watch that bottom check mark!)
+
+![python3](./images/pythoninstall.png)
+
+4. Open up a powershell window and type in the word `python`... if you get a python shell like the one below- excellent work! **If you get an error message:**
+    
+    * Go to your downloads and click on the `python.exe` again
+    * Choose "modify"
+    * Add to environment variables and add to path
+
+![pythonsuccessfull](./images/pythonsuccessfull.png)
+
+
+
+## Download and install Ansible
+
+1. As one of the most powerful aspects of Vagrant is it's ability to **provision** we're going to be going over some best practices around using third-party provisioners with Vagrant.
+
+2. While there are several provisioners in the market that work well with Vagrant (and they are all in constant competition for market leadership) I've found that the best and "easiest-to-use" on the market at the moment is **Ansible**
+
 ![goodtogo](./images/goodtogo.png)
