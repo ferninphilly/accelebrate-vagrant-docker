@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - provision/roles/vagrant-test
+    - provision/roles/vagrant_test

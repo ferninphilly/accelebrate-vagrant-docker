@@ -1,6 +1,6 @@
 ---
-# defaults file for provision/roles/vagrant-test
-vagrant-test:
+# defaults file for provision/roles/vagrant_test
+vagrant_test:
   docroot: /var/www/html
   package: apache2
   service: apache2
