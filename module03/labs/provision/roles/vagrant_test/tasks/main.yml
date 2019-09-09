@@ -1,16 +1,18 @@
 ---
+# tasks file for provision/roles/vagrant_test
+---
 # tasks file for provision/roles/vagrant-test
 ---
 - name: "Install Web Service"
   package:
-    name: "{{ vagrant-test.package }}"
+    name: "{{ vagrant_test.package }}"
     state: present
 - name: "Start Web Service"
   service:
-    name: "{{ vagrant-test.service }}"
+    name: "{{ vagrant_test.service }}"
     state: started
     enabled: yes
 - name: "Copy Web Content"
   copy:
     src: "{{ role_path }}/files/index.html"
-    dest: "{{ vagrant-test.docroot }}/index.html"
+    dest: "{{ vagrant_test.docroot }}/index.html"
