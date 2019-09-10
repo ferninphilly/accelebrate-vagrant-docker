@@ -1,4 +1,5 @@
 ---
+tasks:
   - name: Install MySQL 5.7 repo
     yum: name=http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm state=present
 
@@ -29,7 +30,8 @@
   - debug:
       var: change_temp_pass
 
+handlers:
   - name: restart mysqld
-    service: 
+      service: 
       name: mysqld 
       state: restarted
