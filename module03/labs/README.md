@@ -108,7 +108,7 @@
 
 17. Your mission (if you choose to accept it) is to provision JUST the mysql server with the attached **./mysqlplaybook/playbook.yml**. HINT- use the code from earlier in this lab.
 
-18. THEN...once you have that, ``vagrant ssh webserver` and try calling 
+18. THEN...once you have that __but before you ssh into the server__ we'll also want to have a way to check if we're successfully networked together...which means that the webserver will need some way to access mysql.
 
 
 
