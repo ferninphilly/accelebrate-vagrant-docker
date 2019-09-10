@@ -23,6 +23,7 @@
         echo "[client]"
         user=root
         password=PassW0rd > /root/.my.cnf
+        bind-address = 0.0.0.0 > /root/.my.cnf
       args:
         creates: /root/.my.cnf
       register: change_temp_pass
