@@ -1,4 +1,6 @@
 - hosts: all
+  become: true
+  gather_facts: yes
   tasks:
     - name: Install MySQL 5.7 repo
       yum: name=http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm state=present
