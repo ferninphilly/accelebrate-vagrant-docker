@@ -33,5 +33,5 @@ tasks:
 handlers:
   - name: restart mysqld
       service: 
-      name: mysqld 
-      state: restarted
+        name: mysqld 
+        state: restarted
