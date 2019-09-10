@@ -30,8 +30,8 @@ tasks:
   - debug:
       var: change_temp_pass
 
-handlers:
-  - name: restart mysqld
-    service: 
-      name: mysqld 
-      state: restarted
+#handlers:
+#  - name: restart mysqld
+#    service: 
+#      name: mysqld 
+#      state: restarted
