@@ -31,7 +31,7 @@ tasks:
       var: change_temp_pass
 
 handlers:
-  - name: restart mysqld
-      service: 
-        name: mysqld 
-        state: restarted
+  name: restart mysqld
+  service: 
+    name: mysqld 
+    state: restarted
