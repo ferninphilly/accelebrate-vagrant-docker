@@ -61,7 +61,7 @@
 
 4. NOW- once your VM has restarted go ahead and open up a **git bash** terminal (you can do a search for them and open up). Once that's open type in `vagrant -v`. If you got a response...congratulations!! We're good to go!!
 
-## Download and install Python
+## Download and install Python and PIP
 
 1. So- as a prerequisite to using Ansible we need to have Python installed on our host Operating System (this is also a generally useful thing to have as python is a great programming language).
 
@@ -79,7 +79,11 @@
 
 ![pythonsuccessfull](./images/pythonsuccessfull.png)
 
+5. Now go back to your powershell by typing `exit()` from the python prompt.
 
+6. Once you're back on your windows powershell prompt type the following in: `pip -V`. If you get version information- congratulations! You've got python and PIP!
+
+7. FINAL note- **upgrade pip** with `pip install --upgrade pip`
 
 ## Download and install Ansible
 
