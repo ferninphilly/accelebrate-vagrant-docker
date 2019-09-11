@@ -2,7 +2,7 @@
 
 ## Setting up a provisioner
 
-![provisioner](../../images/provisioner.png)
+![provisioner](../../images/provisioners.png)
 
 1. Up to this point we've been heavily focused on using the `SHELL` commands to do very simple provisioning onto our Vagrant machines.....and shell works very well....at least until our machines start getting fairly complex. 
 
