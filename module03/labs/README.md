@@ -108,19 +108,28 @@
 
 17. Your mission (if you choose to accept it) is to provision JUST the mysql server with the attached **./mysqlplaybook/playbook.yml**. HINT- use the code from earlier in this lab.
 
-18. THEN...once you have that __but before you ssh into the server__ we'll also want to have a way to check if we're successfully networked together...which means that the webserver will need some way to access mysql.
+18. THEN...once you have that __but before you ssh into the server__ we'll also want to add in a way to push stuff for our **webserver** as well SO...
+
+19. **As a second challenge** I want you to add in, using shell provisioners, but __in the same Vagrantfile__ add in the following packages:
+
+```shell
+    sudo yum install -y epel-release
+    sudo yum install -y python-pip
+    pip install mysql-connector-python
+```
+
+20. NOW- as a final challenge (NOT TO BE DONE NOW BECAUSE IT IS A RABBIT HOLE) we can figure out later how to network these two together (hint- it involves IPTables and the `my.cnf` folder). BUT FOR NOW...realize that with __only this single Vagrantfile__ we have successfully put two computers together in a **private network**...which is kind of amazing.
+
+![smart](../../images/smart.jpeg)
 
 
+## Using Vagrant with other providers
 
-
-
-
-
-2. But __what if__ we wanted to build vagrant machines using another provider...like **VMWARE** or **DOCKER**? 
+1. But __what if__ we wanted to build vagrant machines using another provider...like **VMWARE** or **DOCKER**? 
 
 ![mindblown](../../images/mindblown.png)
 
-3. So you'll remember from our earlier module that in the vagrant file there is a **config.vm.provider** section that lists whether we want the visual gui from virtualbox or just to allow ssh access to the machine. To remind you- we initially went with `vb.gui = true` 
+2. So you'll remember from our earlier module that in the vagrant file there is a **config.vm.provider** section that lists whether we want the visual gui from virtualbox or just to allow ssh access to the machine. To remind you- we initially went with `vb.gui = true` 
 
 4. So we're going to switch providers in that section. Let's go with **Docker** in order to bring everything full circle and show how **Vagrant**
 
