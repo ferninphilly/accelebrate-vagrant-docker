@@ -122,40 +122,72 @@
 
 ![smart](../../images/smart.jpeg)
 
+21. Now- just to be more of a villian- MOVE your Vagrantfile OUT and `rm -rf .vagrant` to get rid of all evidence that this was ever a Vagrant directory
 
-## Using Vagrant with other providers
+![drevil](../../images/drevil.jpeg)
 
-1. But __what if__ we wanted to build vagrant machines using another provider...like **VMWARE** or **DOCKER**? 
+## Docker and Vagrant
+
+1. SO-- let's talk through **providers** (to bring everything full circle). Obviously, so far, we've been using **virtualbox** as a provider...which is great BUT...to look WAAAAY back to when this five day class began...we can __also__ use DOCKER in the same way.
 
 ![mindblown](../../images/mindblown.png)
 
-2. So you'll remember from our earlier module that in the vagrant file there is a **config.vm.provider** section that lists whether we want the visual gui from virtualbox or just to allow ssh access to the machine. To remind you- we initially went with `vb.gui = true` 
+2. So there are two ways we can use Docker here: 
 
-4. So we're going to switch providers in that section. Let's go with **Docker** in order to bring everything full circle and show how **Vagrant**
+* We can use it as a PROVISIONER
+* We can use it as a PROVIDER
 
-5. **Generally**- when choosing Virtual Machine providers- you will want to go with a vm provider that lines up as closely with your host OS as possible. There are a lot of issues that can be avoided if we follow this general rule. In this case **Hyper-V** is the microsoft virtualization provider. BUT (as with most things with windows machines)
+#### Docker as PROVISIONER
 
-6. So let's start by adding in our vagrant box manually BUT..unlike what we've been doing to this point let's explicitly call out the provider. SO...let's run this command: `vagrant box add hashicorp/precise64 --provider hyperv`.
+1. So...using it as a **provisioner** basically means that docker will be installed ON the virtual machine (so...a virtual environment INSIDE your virtual...environment!)
 
-7. Now...this could take a while so let's go through some of the other aspects of hyperv boxes while we wait for everything to download...
+![inceptionagain](../../images/inceptionagain.jpg)
 
-8. Another thing to understand about selecting the "provider" is that, because you can have multiple providers for the same box, you need to explicitly call out the provider when you are `vagrant up` -ping the box.
+2. Where is this useful? Well- maybe you want to see how your docker container will perform on your production host if you are using docker containers to manage your application. This is an __excellent__ use of a vagrant virtual machine. Let's make this happen now (though move on as soon as we do this because it might take a while here). Run your `vagrant init bento/centos-7.2`.
 
-9. SO- before we are able to effectively do this we'll need to `vagrant destroy` the current box in our directory...so run a `vagrant destroy` now.
+3. Open up your Vagrantfile here and just add this line in the **config.vm.provisioner** section:
 
-10. Okay- so if everything is ready to go we should be ready to run everything **except**...
+```ruby
+config.vm.provision "docker",
+    images: ["django"]
+```
 
-![watchout](../../images/watchout.png)
+4. So this is a neat little feature of Vagrant....it recognizes **docker** as a command line argument and will automatically download a docker image with the attached code. Keep in mind that the docker image is __inside your vagrant machine__ so it's not necessarily accessible from host...BUT...as a matter of convenience...as soon as you `ssh` INTO the host you'll see the image already there.
 
-11. Here's the thing....VirtualBox and Hypervisor __can not__ run simultaneously. Without going into the long, painful, technical aspects of setting up virtualization on windows machines- let's just take it as given that we'll need to **turn on** the hypervisor on windows in order for this to work. 
+5. This can also be useful if you have a **Dockerfile** handy... if you want to (and you don't need to here...building a machine that provisions with Docker will take long enough) you can do the following thing to provision your vagrant machine with your docker container built and raring to go:
 
-12. BUT...let's ALSO take it as given that when we **turn ON** hypervisor on the windows machine we'll also be **turning OFF** the ability for virtualbox to do it's thing. Sorry- but them's the breaks. 
+* MOUNT your dockerfile into your machine HOME directory (remember how we do that?)
+* Run the `docker build` command
 
-13. Anyways- to turn on the hypervisor (and this could require a machine restart) open up **powershell** on the windows machine and put the following commands into your powershell window: 
+All of this will automatically happen if you add this code to your vagrant machine:
 
-`DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V`
-`Install-WindowsFeature -Name Hyper-V, RSAT-Hyper-V-Tools`
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.provider "docker" do |d|
+    d.build_dir = "/home/vagrant"
+  end
+end
+```
 
-![dismupd](../../images/dism_upd.png)
+6. Anyway- if you've built your docker image you should be good to go now. Let's `vagrant destroy` the current box and `rm Vagrantfile && rm -rf .vagrant`.
 
-14. Go ahead and run the restart. Now go back into git bash and 
+#### Docker as PROVIDER
+
+**Note that we are not going to be running this as a live LAB**
+
+1. Another way we can use Docker with Vagrant is that DOCKER can actually PROVIDE virtual machines for vagrant to run!
+
+2. Now- ultimately there are issues that come up with installing Docker on Windows Servers...so we have to skip that here as docker has system requirements that we don't meet using a virtual machine.... but it's essential to understand that you can use the following to have DOCKER act as a provider:
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.provider "docker" do |d|
+    d.build_dir = "."
+  end
+end
+```
+
+3. What the above code will do is build a docker image as a vagrant machine based on a dockerfile in the same directory
+
+
+
