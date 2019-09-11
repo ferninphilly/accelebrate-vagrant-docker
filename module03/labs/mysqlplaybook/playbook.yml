@@ -1,15 +1,42 @@
-- hosts: postgresql11_hosts
+- hosts: all
   become: true
+  gather_facts: yes
   tasks:
-    - name: setup pg 11
+    - name: Install MySQL 5.7 repo
+      yum: name=http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm state=present
+
+    - name: Install MySQL 5.7
+      yum: pkg={{ item }}
+      with_items:
+      - mysql-community-server
+      - mysql-community-client
+      - MySQL-python
+
+    - name: Start the MySQL service
+      service: name=mysqld state=started enabled=true
+
+    - name: Change mysql root password and keep track in 
       shell: |
-        rpm -Uvh https://yum.postgresql.org/11/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
-        yum install -y postgresql11-server postgresql11-contrib
-    - name: initdb
-      shell: |
-        /usr/pgsql-11/bin/postgresql-11-setup initdb
-      ignore_errors: yes
-    - name: setup service
-      shell: |
-        systemctl enable postgresql-11.service
-        systemctl start postgresql-11.service
+        password_match=`awk '/A temporary password is generated for/ {a=$0} END{ print a }' /var/log/mysqld.log | awk '{print $(NF)}'`
+        echo $password_match
+        mysql -uroot -p$password_match --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'PassW0rd'; flush privileges; "
+        mysql -uroot -p$password_match --connect-expired-password -e "CREATE USER 'usda'@'localhost' IDENTIFIED BY 'PassW0rd'; GRANT ALL PRIVILEGES ON *.* TO 'usda'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+        mysql -uroot -p$password_match --connect-expired-password -e "CREATE USER 'usda'@'%' IDENTIFIED BY 'PassW0rd'; GRANT ALL PRIVILEGES ON *.* TO 'usda'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+        echo "[client]"
+        user=root
+        password=PassW0rd > /etc/my.cnf
+        bind-address = 0.0.0.0 > /etc/my.cnf
+      args:
+        creates: /etc/my.cnf
+      register: change_temp_pass
+      notify: restart mysqld
+
+    - meta: flush_handlers
+    - debug:
+        var: change_temp_pass
+
+  handlers:
+    - name: restart mysqld
+      service: 
+        name: mysqld 
+        state: restarted
