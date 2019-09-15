@@ -4,7 +4,7 @@
 
 1. So as we discussed in the presentation- the important thing to remember about vagrant is that it is **not a virtual machine**. It is an abstraction layer that allows us to **run** virtual machines.
 
-2. This class focuses primarily on using **docker** as the provider...but it's also useful to look at other providers such as **virtualbox** and **vmware** as possibilities. VIRTUALBOX is the primary provider for vagrant.
+2. This class focuses primarily on using **virtualbox** as the provider...but it's also useful to look at other providers such as **docker** and **vmware** as possibilities. VIRTUALBOX is the primary provider for vagrant.
 
 3. Let's explore **Virtualbox** really quickly before we start! Let's open up Virtualbox and take a look at the interface here. You should see a Penguin there:
 
