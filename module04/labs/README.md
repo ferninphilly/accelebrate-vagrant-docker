@@ -31,8 +31,35 @@
 
 ### Snapshotting an image
 
-1. Before we do anything else let's create a quick LAMP machine using ansible
+1. Before we do anything else let's create a quick LAMP machine using ansible...
 
+2. `cd module04/labs` to go into the module04 directory.
+
+3. From in there run a `vagrant init bento/centos-7.2` to create a basic centos box
+
+4. Now that we have our Vagrantfile (and we all know how to do this already!) let's quickly create an ntp machine here with the ansible provisioner I've supplied here!
+
+5. Go to the **provisioner** section of your **Vagrantfile** and add in this section:
+
+```ruby
+config.vm.provision "ansible_local" do |ansible|
+    ansible.playbook="provisioner/site.yml"
+  end
+```
+
+6. Let's also give this machine a name...which is something we haven't been doing much so far. Let's also add this line in under the "provider" section:
+
+```ruby
+config.vm.provider "virtualbox" do |v|
+    v.name = "ntp_machine"
+  end
+```
+
+7. This is how we can "name" machines which is just a lot prettier than **default_blahblahblah**
+
+8. NOW...we have this machine ready to go; let's go ahead and `vagrant up --provision` from within the directory and let ansible do its thing and set up ntp for us.
+
+9. 
 
 2. This server was (fortunately) built for you using a separate and very powerful Hashicorp program known as [packer](https://www.packer.io/). We've gone over the concepts of packer in the lecture portion of this lab so you should, at this point, have a pretty good idea of what it is and what it does...
 
