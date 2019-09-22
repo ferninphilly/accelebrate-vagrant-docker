@@ -24,7 +24,7 @@
 
 4. Now open up your file directories and navigate to the directory **C:\Users\Administrator\Documents\Github\accelebrate-vagrant-docker**. If you see the **accelebrate-vagrant-docker** directory then congrats!! You've got GITHUB!!
 
-![congrats](./images/congrats.jpeg)
+![congrats](./images/congrats.jpg)
 
 ## Download and set up GIT BASH
 
