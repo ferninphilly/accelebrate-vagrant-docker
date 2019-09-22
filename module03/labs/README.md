@@ -122,72 +122,86 @@
 
 ![smart](../../images/smart.jpeg)
 
-21. Now- just to be more of a villian- MOVE your Vagrantfile OUT and `rm -rf .vagrant` to get rid of all evidence that this was ever a Vagrant directory
+## Snapshotting and saving images
 
-![drevil](../../images/drevil.jpeg)
+1. So now we have done all this work and as we sit back and smoke our congratulatory cigar we have to think for ourselves: __This is fantastic but how can I NOT let all this work go to waste??__
 
-## Docker and Vagrant
+![cigardesk](../../images/cigardesk.jpeg)
 
-1. SO-- let's talk through **providers** (to bring everything full circle). Obviously, so far, we've been using **virtualbox** as a provider...which is great BUT...to look WAAAAY back to when this five day class began...we can __also__ use DOCKER in the same way.
+2. Up to this point we've been heavily focused on using Vagrant to **pull down** various images from production servers that have __already been created__. In this section we're going to get in to going through  
 
-![mindblown](../../images/mindblown.png)
+3. Because, in this hypothetical scenario, we have been keeping our infrastructure-as-code effectively. This means that we have:
 
-2. So there are two ways we can use Docker here: 
+* **Vagrant**: is how we are managing our **local** development environment
+* **Ansible** (or chef, puppet, or a shell provisioner) is how we are provisioning our server
+* **Packer** is the JSON document that we're using to deploy images
+* **Terraform** is how we're making the infrastructure
 
-* We can use it as a PROVISIONER
-* We can use it as a PROVIDER
+![infrastructure](../../images/infrastructure.png)
 
-#### Docker as PROVISIONER
+4. Now- let's quickly take a side note here and talk about **machine images**....
 
-1. So...using it as a **provisioner** basically means that docker will be installed ON the virtual machine (so...a virtual environment INSIDE your virtual...environment!)
+5. Let's say you have a Vagrant machine that is running your code successfully. This means that all of the programs are running; dependencies are at their correct versions and the machine memory can handle everything that you are throwing at it. It's basically development Nirvana. 
 
-![inceptionagain](../../images/inceptionagain.jpg)
+![itworked](../../images/itworked.jpeg)
 
-2. Where is this useful? Well- maybe you want to see how your docker container will perform on your production host if you are using docker containers to manage your application. This is an __excellent__ use of a vagrant virtual machine. Let's make this happen now (though move on as soon as we do this because it might take a while here). Run your `vagrant init bento/centos-7.2`.
+6. So what's the first thing you would want to do as a developer? (other than pour yourself a well earned celebratory drink!)...probably the virtual version of __take a picture__, right?
 
-3. Open up your Vagrantfile here and just add this line in the **config.vm.provisioner** section:
+6. In other words- the moment after your code successfully compiles and does the thing you want it to do you want to take a **SNAPSHOT** of the server in it's current configuration so that you can always remember that THIS was the mark where it actually worked!! (before another developer comes in and updates/upgrades a bunch of libraries and breaks all of your stuff)
 
-```ruby
-config.vm.provision "docker",
-    images: ["django"]
-```
+![canttouch](../../images/canttouch.jpeg)
 
-4. So this is a neat little feature of Vagrant....it recognizes **docker** as a command line argument and will automatically download a docker image with the attached code. Keep in mind that the docker image is __inside your vagrant machine__ so it's not necessarily accessible from host...BUT...as a matter of convenience...as soon as you `ssh` INTO the host you'll see the image already there.
+7. SO- with this **snapshot** (continuing with the photograph analogy) you get an **image** of your server FROZEN IN AMBER at this exact moment in time. That **image** is a perfect representation of your machine at this time and can form the basis for a new Vagrant box.
 
-5. This can also be useful if you have a **Dockerfile** handy... if you want to (and you don't need to here...building a machine that provisions with Docker will take long enough) you can do the following thing to provision your vagrant machine with your docker container built and raring to go:
+8. The way we take this image is with the `vagrant snapshot` command. This is a way to **store in amber** the state of the machine at this exact moment....so that whatever else you do to the machine (add in new programs, updates, or upgrades) you can always revert back to the image that you created when you knew all of your stuff was working
 
-* MOUNT your dockerfile into your machine HOME directory (remember how we do that?)
-* Run the `docker build` command
+9. Let's play around with this by using a provisioned machine that we have already created! Let's `vagrant ssh` into our machine and run this command: `date`.
 
-All of this will automatically happen if you add this code to your vagrant machine:
+10. Take note of the date. What time zone is it showing? (should be UTC but might be something different for you since as I write this I am in England). 
+Take note of that and then exit the machine by typing `exit` to return to the host.
 
-```ruby
-Vagrant.configure("2") do |config|
-  config.vm.provider "docker" do |d|
-    d.build_dir = "/home/vagrant"
-  end
-end
-```
+11. From the host type this to take a snapshpt: `vagrant snapshot save webserver utcimage`
 
-6. Anyway- if you've built your docker image you should be good to go now. Let's `vagrant destroy` the current box and `rm Vagrantfile && rm -rf .vagrant`.
+10. Now let's turn around and go **back into** our server with a `vagrant ssh` and change to EAST COAST time (or west coast time if you prefer) with:
 
-#### Docker as PROVIDER
+`sudo cp /usr/share/zoneinfo/US/Pacific-New /etc/localtime` OR 
+`sudo cp /usr/share/zoneinfo/US/Eastern /etc/localtime`
 
-**Note that we are not going to be running this as a live LAB**
+11. Let's run the `date` command to see if that worked! You should  get a date and time corresponsing to the date/time of the time zone you put in there, right? EXCELLENT. NOW...
 
-1. Another way we can use Docker with Vagrant is that DOCKER can actually PROVIDE virtual machines for vagrant to run!
+12. Let's **restore** back to our previous state. **exit the vagrant machine again** with `exit` and from within the host command line type in `vagrant snapshot restore eastcoasttime`. **THIS WILL RESULT IN A Vagrant RESTART!**
 
-2. Now- ultimately there are issues that come up with installing Docker on Windows Servers...so we have to skip that here as docker has system requirements that we don't meet using a virtual machine.... but it's essential to understand that you can use the following to have DOCKER act as a provider:
+13. You can also **restore** AND **reprovision** the machine with `vagrant snapshot restore eastcoasttime --provision` if you want.
 
-```ruby
-Vagrant.configure("2") do |config|
-  config.vm.provider "docker" do |d|
-    d.build_dir = "."
-  end
-end
-```
-
-3. What the above code will do is build a docker image as a vagrant machine based on a dockerfile in the same directory
+14. Now let's `vagrant ssh` back in and see if everything worked!!
 
 
+![panictime](../../images/panictime.png)
 
+## Create a vagrant box
+
+1. Flirtation is over. 
+Dating is over. 
+You're ready to share your Vagrant box with the world...
+SO...how do we do this? 
+
+2. Before we do anything else we want to make the box as small as possible! Using our same box, in our current file, let's run the following to shrink our box down to the smallest size we can:
+
+* `sudo yum clean all` to clean the cache. 
+
+
+3. NOW let's exit the box and run `vagrant package --output thisboxisperfect.box`. **This one could take a while**
+
+4. Once that is done running let's add it in to our "permanent Vagrant directory" locally with `vagrant box add thisboxisperfect thisboxisperfect.box`
+
+5. YOU NOW HAVE THIS BOX LOCALLY! (kind of amazing). Let's Nuke everything and rebuild with our own box:
+
+`rm Vagrantfile && rm -rf .vagrant`
+
+![nukeit](../../images/nukeit.jpeg)
+
+6. ...and finally we're ready...let's re-initialize using our built box with `vagrant init thisboxisperfect`
+
+7. Take a look at the resulting Vagrantfile and then, when you're ready...`vagrant up` and behold the wonder of your __very own Vagrantbox__...which you can now add to the cloud, to git, or to Vagrant **as desired**.
+
+![congrats](../../images/congrats.jpg)

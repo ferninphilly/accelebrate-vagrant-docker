@@ -8,7 +8,7 @@
 
 2. Congratulations! You've got a virtual machine! Let's start setting up virtual machines on your virtual machines!!
 
-![inception](./images/inception.jpeg)
+![inception](./images/inception.jpg)
 
 ## Download and set up GIT 
 
