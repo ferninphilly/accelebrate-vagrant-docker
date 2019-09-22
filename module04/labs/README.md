@@ -59,8 +59,3 @@ config.vm.provider "virtualbox" do |v|
 
 8. NOW...we have this machine ready to go; let's go ahead and `vagrant up --provision` from within the directory and let ansible do its thing and set up ntp for us.
 
-9. 
-
-2. This server was (fortunately) built for you using a separate and very powerful Hashicorp program known as [packer](https://www.packer.io/). We've gone over the concepts of packer in the lecture portion of this lab so you should, at this point, have a pretty good idea of what it is and what it does...
-
-3. So now we have an AMI
